@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ipl="http://java.sun.com/jsf/composite/KleiderInventarLib"
+        >
+<composite:interface>
+
+    <composite:attribute name="columID"/>
+
+    <composite:attribute name="iDLeft"/>
+    <composite:attribute name="typeLeft" required="#{not empty cc.attrs.iDLeft}"/>
+    <composite:attribute name="labelLeft" required="#{not empty cc.attrs.iDLeft}"/>
+    <composite:attribute name="inputValueLeft" required="#{not empty cc.attrs.iDLeft}"/>
+    <composite:attribute name="inputTypeLeft"/>
+    <composite:attribute name="dropDownValuesLeft"/>
+
+    <composite:attribute name="double_size" default="false"/>
+
+    <composite:attribute name="iDRight"/>
+    <composite:attribute name="typeRight" required="#{not empty cc.attrs.iDRight}"/>
+    <composite:attribute name="labelRight" required="#{not empty cc.attrs.iDRight}"/>
+    <composite:attribute name="valueRight" required="#{not empty cc.attrs.iDRight}"/>
+    <composite:attribute name="inputTypeRight"/>
+    <composite:attribute name="dropDownValuesRight"/>
+
+</composite:interface>
+
+<composite:implementation>
+        <span class="zeile">
+
+        <ipl:formComponent type="#{cc.attrs.typeLeft}" iD="#{cc.attrs.iDLeft}" label="#{cc.attrs.labelLeft}"
+                           value="#{cc.attrs.inputValueLeft}" double_size="#{cc.attrs.double_size}"
+                           dropDownValues="#{cc.attrs.dropDownValuesLeft}" inputType="#{cc.attrs.inputTypeLeft}"
+                />
+
+        <c:choose>
+            <c:when test="#{!empty cc.attrs.iDRight}">
+
+                <ipl:formComponent type="#{cc.attrs.typeRight}" iD="#{cc.attrs.iDRight}"
+                                   label="#{cc.attrs.labelRight}" value="#{cc.attrs.valueRight}"
+                                   dropDownValues="#{cc.attrs.dropDownValuesRight}"
+                                   inputType="#{cc.attrs.inputTypeRight}"
+                        />
+
+            </c:when>
+        </c:choose>
+</span>
+    <br/>
+
+
+</composite:implementation>
+
+</html>

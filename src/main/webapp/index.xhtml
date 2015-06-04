@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composits="http://java.sun.com/jsf/composite/KleiderInventarLib"
+        >
+
+
+<h:head> <h:outputStylesheet library="css" name="style.css"/> </h:head>
+
+<h:body>
+
+    <f:view >
+        <h:panelGroup layout="block" styleClass="titel">
+            <h1>Kleider Inventar</h1>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="formular">
+            <hr/>
+            <h:form styleClass="formular">
+                <composits:formRow
+                        columID="beschreibungsColum"
+
+                        typeLeft="stringInput"
+                        iDLeft="kleiderBeschreibung"
+                        labelLeft="Beschriebung:* "
+                        inputValueLeft="#{kleidungsBean.kleid.kleidBeschreibung}"
+                        double_size="true"
+                        />
+
+                <composits:formRow
+                        columID="groesseFarbeColum"
+
+                        typeLeft="input"
+                        iDLeft="groesse"
+                        labelLeft="Grösse:* "
+                        inputValueLeft="#{kleidungsBean.kleid.kleiderGroesse}"
+
+                        typeRight="dropDown"
+                        iDRight="farbe"
+                        labelRight="Farbe:* "
+                        valueRight="#{kleidungsBean.kleid.farbe}"
+                        dropDownValuesRight="#{farbenBean.farben}"
+                        />
+                <composits:formRow
+                        columID="preisColum"
+
+                        typeLeft="preisInput"
+                        iDLeft="preis"
+                        labelLeft="Preis:* "
+                        inputValueLeft="#{kleidungsBean.kleid.preis}"
+                        />
+
+                <composits:formRow
+                        columID="kategorieColum"
+
+                        typeLeft="dropDown"
+                        iDLeft="kategorie"
+                        labelLeft="Kategorie:* "
+                        inputValueLeft="#{kleidungsBean.kleid.kategorieID}"
+                        dropDownValuesLeft="#{kategorieBean.kategorienValues}"
+                        />
+
+                <composits:formRow
+                        columID="markenColum"
+                        typeLeft="dropDown"
+                        iDLeft="marke"
+                        labelLeft="Marke:* "
+                        inputValueLeft="#{kleidungsBean.kleid.markenID}"
+                        dropDownValuesLeft="#{markenBean.markenValues}"
+                     />
+                <h:panelGroup layout="block" styleClass="hinzufuegen">
+                    <br/>
+                    <h:outputLink value="kategorien.xhtml">Kategorien hinzufügen</h:outputLink>
+                    <br/>
+                    <h:outputLink value="marken.xhtml">Marken hinzufügen</h:outputLink>
+                    <hr/>
+                     <h:commandButton id="hinzufuegenButton" action="#{kleidungsBean.add}" value="Hinzufuegen"
+                                      styleClass="button" rendered="#{!kleidungsBean.bearbeitungsModus}"/>
+                    <h:commandButton id="speichernButton" action="#{kleidungsBean.updateKleid}" value="Speichern"
+                                     styleClass="button" rendered="#{kleidungsBean.bearbeitungsModus}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup layout="block" styleClass="ausgabe">
+            <h:form styleClass="formular">
+                <p:dataTable var="kleid" value="#{kleidungsBean.kleider}" scrollable="true" >
+                    <p:column headerText="Beschriebung" sortBy="#{kleid.kleidBeschreibung}" >
+                        <h:outputText value="#{kleid.kleidBeschreibung}"/>
+                    </p:column>
+                    <p:column headerText="Kategorie" sortBy="#{kleid.kategorieID}">
+                        <h:outputText value="#{kleid.kategorieBezeichnung}"/>
+                    </p:column>
+                    <p:column headerText="Marke" sortBy="#{kleid.markenID}">
+                        <h:outputText value="#{kleid.markenBezeichung}"/>
+                    </p:column>
+                    <p:column headerText="Grösse" sortBy="#{kleid.kleiderGroesse}">
+                    <h:outputText value="#{kleid.kleiderGroesse}"/></p:column>
+                    <p:column headerText="Farbe" sortBy="#{kleid.farbe}">
+                        <h:outputText value="#{kleid.farbe}"/>
+                    </p:column>
+                    <p:column headerText="Preis" sortBy="#{kleid.preis}">
+                        <h:outputText value="#{kleid.preis}"/>
+                    </p:column>
+                    <p:column headerText="Bearbeitung">
+                        <div id="bearbeitung" class="bearbeitungsModus ui-row-editing">
+                            <h:commandLink title="Bearbeitung" class="ui-icon ui-icon-pencil"
+                                           id="bearbeitungsModusAn"
+                                           action="#{kleidungsBean.modifyKleid(kleid.kleidId)}"/>
+                        </div>
+
+                    </p:column>
+
+                    <p:column headerText="Löschen">
+                        <div id="loeschung" class="loeschModus ui-row-editing">
+                            <h:commandLink title="Löschen" class="ui-icon ui-icon-closethick"
+                                           id="loeschModusAn"
+                                           action="#{kleidungsBean.delete(kleid.kleidId)}"/>
+                        </div>
+
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+        </h:panelGroup>
+
+    </f:view>
+</h:body>
+</html>
