@@ -17,30 +17,43 @@
     <composite:attribute name="inputType"/>
     <composite:attribute name="dropDownValues" required="#{cc.attrs.type eq'dropDown'}"/>
     <composite:attribute name="defaulfirstDropDownValue"/>
+    <composite:attribute name="iValidator"/>
+    <composite:attribute name="maxLength"/>
+    <composite:attribute name="minLength"/>
+    <composite:attribute name="reuqired"/>
 
 
 </composite:interface>
 
 <composite:implementation>
-
+<span class="errorMessage">
+    <h:messages styleClass="warningText" for="#{cc.attrs.iD}"/>
+</span>
     <span class="element">
         <c:choose>
             <c:when test="#{cc.attrs.type eq 'stringInput'}">
                 <h:outputLabel for="#{cc.attrs.iD}" value='#{cc.attrs.label}' styleClass="label"/>
-                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}"
-                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}"/>
+                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}" validatorID="#{cc.attrs.iValidator}"
+                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}"
+                             required="#{cc.attrs.reuqired}">
+                    <f:validateLength minimum="#{cc.attrs.minLength}" maximum="#{cc.attrs.maxLength}"/>
+                </h:inputText>
             </c:when>
 
             <c:when test="#{cc.attrs.type eq 'preisInput'}">
                 <h:outputLabel for="#{cc.attrs.iD}" value='#{cc.attrs.label}' styleClass="label"/>
-                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}"
-                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}"/>
+                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}" validatorID="#{cc.attrs.iValidator}"
+                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}" required="#{cc.attrs.reuqired}">
+                <f:validateLength minimum="#{cc.attrs.minLength}" maximum="#{cc.attrs.maxLength}"/>
+                </h:inputText>
             </c:when>
 
             <c:when test="#{cc.attrs.type eq 'input'}">
                 <h:outputLabel for="#{cc.attrs.iD}" value='#{cc.attrs.label}' styleClass="label"/>
-                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}"
-                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}"/>
+                <h:inputText id="#{cc.attrs.iD}" value="#{cc.attrs.value}" validatorID="#{cc.attrs.inputValidator}"
+                             styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}" required="#{cc.attrs.reuqired}">
+                <f:validateLength minimum="#{cc.attrs.minLength}" maximum="#{cc.attrs.maxLength}"/>
+                </h:inputText>
             </c:when>
 
             <c:when test="#{cc.attrs.type eq'dropDown'}">
@@ -53,7 +66,7 @@
 
             <c:otherwise>
                 <h:outputLabel for="#{cc.attrs.iD}" value='#{cc.attrs.label}' styleClass="label"/>
-                <h:inputTextarea id="#{cc.attrs.iD}" value="#{cc.attrs.value}" cols="21" rows="5"
+                <h:inputTextarea id="#{cc.attrs.iD}" value="#{cc.attrs.value}" cols="21" rows="5" validatorID="#{cc.attrs.inputValidator}"
                                  styleClass="#{cc.attrs.double_size ? 'eingabeFeldLarge':'eingabeFeld'}"/>
             </c:otherwise>
         </c:choose>

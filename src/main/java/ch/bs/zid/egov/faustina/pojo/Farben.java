@@ -2,6 +2,8 @@ package ch.bs.zid.egov.faustina.pojo;
 
 /**
  * ENUM für Farben
+   * @author Faustina Bruno
+ * @version 1
  */
 public enum Farben
 {
@@ -25,6 +27,9 @@ public enum Farben
         this.label = label;
     }
 
+    /**
+     * @return String, gibt in Label aus
+     */
     public String getLabel()
     {
         return this.label;

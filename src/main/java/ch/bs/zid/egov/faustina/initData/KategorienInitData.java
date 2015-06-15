@@ -1,4 +1,4 @@
-package ch.bs.zid.egov.faustina.dataSimulation;
+package ch.bs.zid.egov.faustina.initData;
 
 import ch.bs.zid.egov.faustina.application.KategorieService;
 import ch.bs.zid.egov.faustina.pojo.Kategorie;
@@ -10,24 +10,30 @@ import javax.inject.Inject;
 import javax.ejb.Singleton;
 
 /**
- * Simulation
+ * Befüllt die Datenbank mit Startwerten
+ * @author Faustina Bruno
+ * @version 1
  */
 @Startup
 @Singleton
-public class KategorienDataSimulation
+public class KategorienInitData
 {
     @Inject
     private KategorieService kategorieService;
 
-    public KategorienDataSimulation()
+    public KategorienInitData()
     {
     }
 
+    /**
+     * Nach dem Built Prozess wird diese Methode aufgerufen
+     */
     @PostConstruct
     public void initTestData()
     {
         this.daten();
     }
+
 
     private void kategorienEinfuellen(String bezeichnung)
     {

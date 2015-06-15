@@ -23,15 +23,20 @@ import java.util.List;
 public class KategorieService implements Serializable {
     @PersistenceContext(unitName = "kleider-pu")
     private EntityManager entityManager;
-
-
+    /**
+     * Fügt eine Kategorie in die Datenbank hinzu
+     * @param kategorie, die zuhinzufügende Kategorie
+     * @return Kategrorie, die hinzugefügte Kategorie
+     */
     public Kategorie addKategorie(Kategorie kategorie) {
         KategorieEntity kategorieEntity = this.convertKategorieToEntity(kategorie);
         this.entityManager.persist(kategorieEntity);
         return this.convertEntityToKategorie(kategorieEntity);
     }
-
-
+    /**
+     * Holt alle Kategorien von der Datenbank
+     * @return List von Kategorien, eine Liste mit allen Kategorien
+     */
     public List<Kategorie> getAllKategorien() {
         CriteriaQuery<KategorieEntity> cq = this.entityManager.getCriteriaBuilder().createQuery(KategorieEntity.class);
         cq.select(cq.from(KategorieEntity.class));
@@ -47,21 +52,24 @@ public class KategorieService implements Serializable {
         }
         return kategories;
     }
-
-    public Kategorie convertEntityToKategorie(KategorieEntity kategorieEntity) {
+    private Kategorie convertEntityToKategorie(KategorieEntity kategorieEntity) {
         Kategorie kategorie = new Kategorie();
         kategorie.setKategorieId(kategorieEntity.getKategorieId());
         kategorie.setKategorieBezeichnung(kategorieEntity.getKategorieBezeichnung());
         return kategorie;
     }
-
-    public KategorieEntity convertKategorieToEntity(Kategorie kategorie) {
+    private KategorieEntity convertKategorieToEntity(Kategorie kategorie) {
         KategorieEntity kategorieEntity = new KategorieEntity();
 
         kategorieEntity.setKategorieId(kategorie.getKategorieId());
         kategorieEntity.setKategorieBezeichnung(kategorie.getKategorieBezeichnung());
         return kategorieEntity;
     }
+    /**
+     * Holt Kategorien anhand einer ID aus der Datenbank
+     * @param kategorieID, der gesuchten Kategorie
+     * @return Kategorie, die auf diese ID passt
+     */
     public Kategorie getKategoriefromID(int kategorieID){
         return this.convertEntityToKategorie(this.entityManager.find(KategorieEntity.class,kategorieID));
     }

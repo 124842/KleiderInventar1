@@ -23,7 +23,8 @@ import java.util.List;
 @SessionScoped
 public class MarkenBean implements Serializable
 {
-
+@Inject
+MessagesBean messagesBean;
     @Inject
     private MarkenService markenService;
 
@@ -61,7 +62,12 @@ public class MarkenBean implements Serializable
      */
     public void fetchMarken()
     {
+        try{
         this.marken = this.markenService.getAllMarken();
+        }
+        catch (Exception e){
+          this.messagesBean.messageAusgebben("Fehler aufgetreten, beim Marken laden",true);
+        }
 
     }
 
@@ -87,10 +93,16 @@ public class MarkenBean implements Serializable
      */
     public String add()
     {
-
-        this.markenService.addMarke(this.marke);
-        this.fetchMarken();
-        this.marke = new Marke();
-        return "index.xhtml";
+    try {
+    this.markenService.addMarke(this.marke);
+    this.fetchMarken();
+    this.marke = new Marke();
+        this.messagesBean.messageAusgebben("Marke wurde hinzugefügt",false);
+    return "index.xhtml";
+    }
+    catch(Exception e){
+    this.messagesBean.messageAusgebben("Fehler aufgetreten, beim Marken hinzufügen",true);
+    return "index.xhtml";
+}
     }
 }

@@ -26,18 +26,17 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
-
 /**
  * KleidungsBean ist die Verbindung zwischen der View(allen xhtml Dateien ) und dem Rest der Applikation.
  * @author Faustina Bruno
  * @version 1.0
  */
-
 @Named("kleidungsBean")
 @SessionScoped
 public class KleidungsBean implements Serializable
 {
-
+    @Inject
+    MessagesBean messagesBean;
     @Inject
     private KleiderService kleidService;
     private List<Kleid> kleider;
@@ -69,11 +68,13 @@ public class KleidungsBean implements Serializable
         try
         {
             this.kleidService.addKleid(this.kleid);
+            this.messagesBean.messageAusgebben("Kleid wurde gespeichert",false);
             this.fetchKleider();
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            this.messagesBean.messageAusgebben("fehler aufgetreten",true);
         }
 
         this.kleid = new Kleid();
@@ -86,10 +87,12 @@ public class KleidungsBean implements Serializable
             this.changeBearbeitungsModus();
             this.fetchKleider();
             this.kleid=new Kleid();
+            this.messagesBean.messageAusgebben("Kleid wurde geändert",false);
             return "index.xhtml";
         }
         catch (Exception e){
             e.printStackTrace();
+            this.messagesBean.messageAusgebben("Fehler aufgetreten",true);
             return "index.xhtml";
         }
     }
@@ -117,6 +120,7 @@ public class KleidungsBean implements Serializable
      */
     public void delete(BigInteger kleidID){
         this.kleidService.deleteKleid(kleidID);
+        this.fetchKleider();
     }
 
     /**

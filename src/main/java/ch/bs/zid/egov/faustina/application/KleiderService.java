@@ -26,7 +26,6 @@ import ch.bs.zid.egov.faustina.pojo.Marke;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
@@ -39,32 +38,40 @@ import java.util.List;
  * @author Faustina Bruno
  * @version 1.0
  */
-
 @Stateless
 public class KleiderService implements Serializable
 {
-
     @PersistenceContext(unitName = "kleider-pu")
     private EntityManager entityManager;
-
     @Inject
     KategorieService kategorieService = new KategorieService();
-
     @Inject
     MarkenService markenService = new MarkenService();
-
+    /**
+     * Ein neues Kleid wird in der Datenbank hinzugefügt
+     * @param kleid, das hinzugefügt wird
+     * @return Kleid, das in der Datenbank angelegt wurde
+     */
     public Kleid addKleid(Kleid kleid)
     {
         KleidEntity kleidEntity = this.convertKleidToEntity(kleid);
         this.entityManager.persist(kleidEntity);
         return this.convertEntityToKleid(kleidEntity);
     }
-
+    /**
+     * Hier wird ein bestehendes Kleid in der Datenbank geändert
+     * @param kleid dass zu ändern ist
+     * @return Kleid das geändert wurde
+     */
     public Kleid updateKleid(Kleid kleid){
         KleidEntity kleidEntity = this.convertKleidToEntity(kleid);
         this.entityManager.merge(kleidEntity);
         return this.convertEntityToKleid(kleidEntity);
     }
+    /**
+     * holt alle Kleider aus der datenbank
+     * @return liste mit Kleider
+     */
     public List<Kleid> getAllKleider()
     {
         CriteriaQuery<KleidEntity> cq = this.entityManager.getCriteriaBuilder().createQuery(KleidEntity.class);
@@ -79,10 +86,7 @@ public class KleiderService implements Serializable
         }
         return kleider;
     }
-
-
-    public Kleid convertEntityToKleid(KleidEntity kleidEntity) {
-
+    private Kleid convertEntityToKleid(KleidEntity kleidEntity) {
         Kleid kleid = new Kleid();
         kleid.setKleidId(kleidEntity.getKleidId());
         kleid.setPreis(kleidEntity.getPreis());
@@ -100,8 +104,7 @@ public class KleiderService implements Serializable
         kleid.setMarkenBezeichung(this.convertMarkenIDInMarkenBezeichnung(kleidEntity.getMarkenID()));
         return kleid;
     }
-
-    public KleidEntity convertKleidToEntity(Kleid kleid) {
+    private KleidEntity convertKleidToEntity(Kleid kleid) {
         KleidEntity kleidEntity = new KleidEntity();
         kleidEntity.setKleidId(kleid.getKleidId());
         kleidEntity.setPreis(kleid.getPreis());
@@ -116,36 +119,19 @@ public class KleiderService implements Serializable
     kleidEntity.setKategorieID(kleid.getKategorieID());
         return kleidEntity;
     }
-public KategorieEntity convertKategorieToEntity(Kategorie kategorie){
+    private KategorieEntity convertKategorieToEntity(Kategorie kategorie){
     KategorieEntity kategorieEntity = new KategorieEntity();
     kategorieEntity.setKategorieId(kategorie.getKategorieId());
     kategorieEntity.setKategorieBezeichnung(kategorie.getKategorieBezeichnung());
     return kategorieEntity;
 }
-
-    public MarkenEntity convertMarkeToEntity(Marke marke){
+    private MarkenEntity convertMarkeToEntity(Marke marke){
         MarkenEntity markenEntity = new MarkenEntity();
         markenEntity.setMarkenId(marke.getMarkenId());
         markenEntity.setMarkenBezeichnung(marke.getMarkenBezeichnung());
         return markenEntity;
     }
-
-public Kategorie convertEntityToKategorie(KategorieEntity kategorieEntity){
-    Kategorie kategorie = new Kategorie();
-    kategorie.setKategorieId(kategorieEntity.getKategorieId());
-    kategorie.setKategorieBezeichnung(kategorieEntity.getKategorieBezeichnung());
-    return kategorie;
-}
-
-    public Marke convertEntityToMarke(MarkenEntity markenEntity){
-        Marke marke= new Marke();
-        marke.setMarkenId(markenEntity.getMarkenId());
-        marke.setMarkenBezeichnung(markenEntity.getMarkenBezeichnung());
-        return marke;
-    }
-
-
-    public String convertKategorieIDInKategorieBezeichnung(BigInteger kategorieID){
+    private String convertKategorieIDInKategorieBezeichnung(BigInteger kategorieID){
         List<Kategorie> kategorien = this.kategorieService.getAllKategorien();
         for (Kategorie kategorie : kategorien){
             if(kategorie.getKategorieId().equals(kategorieID)){
@@ -154,8 +140,7 @@ public Kategorie convertEntityToKategorie(KategorieEntity kategorieEntity){
         }
         return null;
     }
-
-    public String convertMarkenIDInMarkenBezeichnung(BigInteger markenID){
+    private String convertMarkenIDInMarkenBezeichnung(BigInteger markenID){
         List<Marke> marken = this.markenService.getAllMarken();
         for(Marke marke: marken){
             if(marke.getMarkenId().equals(markenID)){
@@ -164,22 +149,27 @@ public Kategorie convertEntityToKategorie(KategorieEntity kategorieEntity){
         }
         return null;
     }
-
     private KategorieEntity convertToKategorieFromID(BigInteger kategorieId){
         int id= kategorieId.intValue();
        return this.convertKategorieToEntity(this.kategorieService.getKategoriefromID(id));
     }
-
     private MarkenEntity convertToMarkeFromID(BigInteger markenId){
         int id = markenId.intValue();
        return this.convertMarkeToEntity(this.markenService.getMarkefromID(id));
     }
-
+    /**
+     *
+     * @param kleidID, des zu ausgebendem Kleid
+     * @return Kleid
+     */
     public Kleid getKleidByID(BigInteger kleidID){
         int id= kleidID.intValue();
         return this.convertEntityToKleid(this.entityManager.find(KleidEntity.class,id));
     }
-
+    /**
+     * Löscht Kleid aus Datenbank anhand der ID
+     * @param kleidID des zu löschendem Kleid
+     */
     public void deleteKleid(BigInteger kleidID){
 
         KleidEntity kleidToDelet = this.entityManager.find(KleidEntity.class, kleidID);

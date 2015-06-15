@@ -20,6 +20,7 @@
         <h:panelGroup layout="block" styleClass="formular">
             <hr/>
             <h:form styleClass="formular">
+                <h:messages globalOnly="true" styleClass="#{messagesBean.errorMessage ? 'fehlermeldung':'meldung'}"/>
                 <composits:formRow
                         columID="beschreibungsColum"
 
@@ -28,6 +29,10 @@
                         labelLeft="Beschriebung:* "
                         inputValueLeft="#{kleidungsBean.kleid.kleidBeschreibung}"
                         double_size="true"
+                        requiredLeft="true"
+                        maxLengthLeft="100"
+                        minLengthLeft="2"
+                        inputValidatorLeft="stringLengthValidator"
                         />
 
                 <composits:formRow
@@ -43,6 +48,8 @@
                         labelRight="Farbe:* "
                         valueRight="#{kleidungsBean.kleid.farbe}"
                         dropDownValuesRight="#{farbenBean.farben}"
+                        minLengthRight="1"
+                        maxLengthLeft="4"
                         />
                 <composits:formRow
                         columID="preisColum"
@@ -51,6 +58,10 @@
                         iDLeft="preis"
                         labelLeft="Preis:* "
                         inputValueLeft="#{kleidungsBean.kleid.preis}"
+                        requiredLeft="true"
+                        maxLengthLeft="7"
+                        minLengthLeft="1"
+                        inputValidatorLeft="preisValidator"
                         />
 
                 <composits:formRow
@@ -73,9 +84,9 @@
                      />
                 <h:panelGroup layout="block" styleClass="hinzufuegen">
                     <br/>
-                    <h:outputLink value="kategorien.xhtml">Kategorien hinzufügen</h:outputLink>
+                    <h:outputLink id="kategorieHinzufuegen" value="kategorien.xhtml">Kategorien hinzufügen</h:outputLink>
                     <br/>
-                    <h:outputLink value="marken.xhtml">Marken hinzufügen</h:outputLink>
+                    <h:outputLink id="markenHinzufuegen" value="marken.xhtml">Marken hinzufügen</h:outputLink>
                     <hr/>
                      <h:commandButton id="hinzufuegenButton" action="#{kleidungsBean.add}" value="Hinzufuegen"
                                       styleClass="button" rendered="#{!kleidungsBean.bearbeitungsModus}"/>

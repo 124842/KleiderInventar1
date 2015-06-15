@@ -1,8 +1,5 @@
 package ch.bs.zid.egov.faustina.pojo;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.math.BigInteger;
 
 /**
@@ -16,32 +13,32 @@ public class Marke {
     private String markenBezeichnung;
 
     /**
-     *
-     * @return gibt die MarkenID aus
+     *gibt die MarkenID weiter
+     * @return markenID, BigInteger
      */
     public BigInteger getMarkenId() {
         return this.markenId;
     }
 
     /**
-     *
-     * @param markenId, setzt die MarkenID
+     *Setzt die markenID
+     * @param markenId, BigInteger
      */
     public void setMarkenId(BigInteger markenId) {
         this.markenId = markenId;
     }
 
     /**
-     *
-     * @return gibt die makrenBezeichnung aus
+     *gibt die makrenBezeichnung weiter
+     * @return markenBezeichnung, String
      */
     public String getMarkenBezeichnung() {
         return this.markenBezeichnung;
     }
 
     /**
-     *
-     * @param markenBezeichnung, setzt die MarkenBezeichnung
+     *setzt die MarkenBezeichnung
+     * @param markenBezeichnung, String
      */
     public void setMarkenBezeichnung(String markenBezeichnung) {
         this.markenBezeichnung = markenBezeichnung;

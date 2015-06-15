@@ -101,3 +101,28 @@ h2{
     width: 950px;
     margin: 0 auto;
 }
+#markenHinzufuegen{
+    float: left;
+}
+#kategorienHinzufuegen{
+    float: left;
+}
+.meldung{
+background-color: darkseagreen;
+}
+.fehlerMeldung{
+    background-color: lightcoral;
+}
+#hinzufuegen{
+float: right;
+}
+ul li{
+    list-style-type: none;
+    text-align: center;
+    font-weight:bold ;
+}
+.errorMessagen.warningText{
+    width: 94%;
+    color:red;
+
+}

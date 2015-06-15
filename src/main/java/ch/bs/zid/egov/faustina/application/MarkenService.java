@@ -35,10 +35,8 @@ public class MarkenService implements Serializable
         this.entityManager.persist(markenEntity);
         return this.convertEntityToMarke(markenEntity);
     }
-
     /**
-     *
-     * @return gibt eine Liste mit allen Marken in der Datenbank wieder
+     * @return List mit marken, gibt eine Liste mit allen Marken aus der Datenbank aus
      */
     public List<Marke> getAllMarken()
     {
@@ -54,35 +52,22 @@ public class MarkenService implements Serializable
         }
         return marken;
     }
-
-    /**
-     * Mapping von Entity zu Marke
-     * @param markenEntity die in eine Marke verwandelt werden muss
-     * @return die umgewandelte Marke
-     */
-    public Marke convertEntityToMarke(MarkenEntity markenEntity){
+    private Marke convertEntityToMarke(MarkenEntity markenEntity){
         Marke marke = new Marke();
         marke.setMarkenId(markenEntity.getMarkenId());
         marke.setMarkenBezeichnung(markenEntity.getMarkenBezeichnung());
         return marke;
     }
-
-    /**
-     *
-     * @param marke
-     * @return
-     */
-    public MarkenEntity convertMarkeToEntity(Marke marke){
+    private MarkenEntity convertMarkeToEntity(Marke marke){
         MarkenEntity markenEntity = new MarkenEntity();
         markenEntity.setMarkenId(marke.getMarkenId());
         markenEntity.setMarkenBezeichnung(marke.getMarkenBezeichnung());
         return markenEntity;
     }
-
     /**
-     *
-     * @param markenID
-     * @return
+     *Gibt eine Marke anhand einer ID aus der Datenbank aus
+     * @param markenID, der auszugebenden Marke
+     * @return Marke, die gesucht wird
      */
     public Marke getMarkefromID(int markenID){
         return this.convertEntityToMarke(this.entityManager.find(MarkenEntity.class, markenID));

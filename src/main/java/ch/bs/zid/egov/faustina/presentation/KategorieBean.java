@@ -21,13 +21,12 @@ import java.util.List;
 @SessionScoped
 public class KategorieBean implements Serializable
 {
-
+    @Inject
+    MessagesBean messagesBean;
     @Inject
     private KategorieService kategorieService;
-
     private List<Kategorie> kategorien;
     private Kategorie kategorie = new Kategorie();
-
 
     /**
      * Nach dem Build wird diese methode ausgeführt,
@@ -69,10 +68,17 @@ public class KategorieBean implements Serializable
      */
     public String add()
     {
-        this.kategorieService.addKategorie(this.kategorie);
-        this.fetchKategorien();
-        this.kategorie = new Kategorie();
-        return "index.xhtml";
+        try {
+            this.kategorieService.addKategorie(this.kategorie);
+            this.fetchKategorien();
+            this.kategorie = new Kategorie();
+            this.messagesBean.messageAusgebben("Kategorie wurde gespeichert",false);
+            return "index.xhtml";
+        }
+        catch (Exception e){
+            this.messagesBean.messageAusgebben("Kleid wurde geändert",false);
+            return "index.xhtml";
+        }
     }
 
     /**
@@ -80,7 +86,7 @@ public class KategorieBean implements Serializable
      * @return "kategorie.xhtml", gibt die xhtml Seite, die nach dem ausführen der Methode angezeigt werden soll
      */
 
-public String changeMode(){
+    public String changeMode(){
     return "kategorien.xhtml";
 }
 

@@ -1,4 +1,4 @@
-package ch.bs.zid.egov.faustina.dataSimulation;
+package ch.bs.zid.egov.faustina.initData;
 
 import ch.bs.zid.egov.faustina.application.MarkenService;
 import ch.bs.zid.egov.faustina.pojo.Marke;
@@ -9,19 +9,24 @@ import javax.inject.Inject;
 import javax.ejb.Singleton;
 
 /**
- * Simulation
+ * befüllt Datenbank mit Anfangswerten
+ * @author Faustina Bruno
+ * @version 1
  */
 
 @Startup
 @Singleton
-public class MarkenDataSimulation
+public class MarkenInitData
 {
 
     @Inject
     private MarkenService markenService;
 
-    public MarkenDataSimulation(){}
+    public MarkenInitData(){}
 
+    /**
+     * Nach dem Built prozess, wird diese Methode aufgerufen
+     */
     @PostConstruct
     public void initTestData(){
         this.daten();

@@ -18,6 +18,10 @@
     <composite:attribute name="inputValueLeft" required="#{not empty cc.attrs.iDLeft}"/>
     <composite:attribute name="inputTypeLeft"/>
     <composite:attribute name="dropDownValuesLeft"/>
+    <composite:attribute name="inputValidatorLeft"/>
+    <composite:attribute name="minLengthLeft"/>
+    <composite:attribute name="maxLengthLeft"/>
+    <composite:attribute name="requiredLeft" default="false"/>
 
     <composite:attribute name="double_size" default="false"/>
 
@@ -27,6 +31,10 @@
     <composite:attribute name="valueRight" required="#{not empty cc.attrs.iDRight}"/>
     <composite:attribute name="inputTypeRight"/>
     <composite:attribute name="dropDownValuesRight"/>
+    <composite:attribute name="inputValidatorRight"/>
+    <composite:attribute name="minLengthRight"/>
+    <composite:attribute name="maxLengthRight"/>
+    <composite:attribute name="requiredRight" default="false"/>
 
 </composite:interface>
 
@@ -36,6 +44,8 @@
         <ipl:formComponent type="#{cc.attrs.typeLeft}" iD="#{cc.attrs.iDLeft}" label="#{cc.attrs.labelLeft}"
                            value="#{cc.attrs.inputValueLeft}" double_size="#{cc.attrs.double_size}"
                            dropDownValues="#{cc.attrs.dropDownValuesLeft}" inputType="#{cc.attrs.inputTypeLeft}"
+                           iValidator="#{cc.attrs.inputTypeLeft}" maxLength="#{cc.attrs.maxLengthLeft}"
+                           minLength="#{cc.attrs.minLengthLeft}" reuqired="#{cc.attrs.requiredLeft}"
                 />
 
         <c:choose>
@@ -45,6 +55,8 @@
                                    label="#{cc.attrs.labelRight}" value="#{cc.attrs.valueRight}"
                                    dropDownValues="#{cc.attrs.dropDownValuesRight}"
                                    inputType="#{cc.attrs.inputTypeRight}"
+                                   iValidator="#{cc.attrs.inputValidatorRight}" maxLength="#{cc.attrs.maxLengthRight}"
+                                   minLength="#{cc.attrs.minLengthRight}" reuqired="#{cc.attrs.requiredRight}"
                         />
 
             </c:when>
